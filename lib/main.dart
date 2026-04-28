@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-import 'firebase_options.dart';
+import 'supabase_options.dart';
 
 // ---------------------------------------------------------------------------
-// Demo mode — set to true to run without a real Firebase project.
-// In Demo Mode, no Firebase writes occur; all state lives in Riverpod only.
+// Demo mode — set to true to run without a real Supabase project.
+// In Demo Mode, Supabase is not initialised; all state lives in Riverpod only.
 // ---------------------------------------------------------------------------
 const bool kDemoMode = true;
+
+// ---------------------------------------------------------------------------
+// Supabase client helper — safe to call anywhere after main() has run.
+// ---------------------------------------------------------------------------
+SupabaseClient get supabase => Supabase.instance.client;
 
 // ---------------------------------------------------------------------------
 // Bootstrap
@@ -21,10 +26,11 @@ Future<void> main() async {
   // Hive (offline cache)
   await Hive.initFlutter();
 
-  // Firebase — skipped in Demo Mode or if credentials are still placeholders
+  // Supabase — skipped in Demo Mode or when credentials are still placeholders
   if (!kDemoMode) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
+    await Supabase.initialize(
+      url: SupabaseOptions.supabaseUrl,
+      anonKey: SupabaseOptions.anonKey,
     );
   }
 
