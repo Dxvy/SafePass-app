@@ -22,9 +22,8 @@ subprojects {
 subprojects {
     afterEvaluate {
         tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-            @Suppress("DEPRECATION")
-            kotlinOptions {
-                languageVersion = "1.9"
+            compilerOptions {
+                languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9)
             }
         }
     }
