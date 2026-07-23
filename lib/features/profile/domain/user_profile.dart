@@ -35,7 +35,8 @@ class UserProfile {
 
 class ProfileValidator {
   static String? validateDisplayName(String? value) {
-    if (value == null || value.trim().isEmpty) return 'Le nom ne peut pas être vide';
+    if (value == null || value.trim().isEmpty)
+      return 'Le nom ne peut pas être vide';
     if (value.trim().length < 2) return 'Minimum 2 caractères';
     if (value.trim().length > 50) return 'Maximum 50 caractères';
     return null;

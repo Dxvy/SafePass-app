@@ -14,17 +14,22 @@ class BalanceCard extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           child: Column(
             children: [
-              const Icon(Icons.account_balance_wallet_outlined,
-                  size: 40, color: AppColors.accent),
+              const Icon(
+                Icons.account_balance_wallet_outlined,
+                size: 40,
+                color: AppColors.accent,
+              ),
               const SizedBox(height: 8),
-              Text('Solde disponible',
-                  style: Theme.of(context).textTheme.labelLarge),
+              Text(
+                'Solde disponible',
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
               Text(
                 '${balance.toStringAsFixed(2)} €',
-                style: Theme.of(context)
-                    .textTheme
-                    .displaySmall
-                    ?.copyWith(fontWeight: FontWeight.bold, color: AppColors.accent),
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.accent,
+                ),
               ),
             ],
           ),

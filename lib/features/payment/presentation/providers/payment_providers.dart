@@ -19,17 +19,24 @@ final paymentLockServiceProvider = Provider<PaymentLockService>(
 );
 
 class PaymentState {
-  const PaymentState({this.balance = 0, this.history = const [], this.loading = false});
+  const PaymentState({
+    this.balance = 0,
+    this.history = const [],
+    this.loading = false,
+  });
   final double balance;
   final List<Map<String, dynamic>> history;
   final bool loading;
 
-  PaymentState copyWith({double? balance, List<Map<String, dynamic>>? history, bool? loading}) =>
-      PaymentState(
-        balance: balance ?? this.balance,
-        history: history ?? this.history,
-        loading: loading ?? this.loading,
-      );
+  PaymentState copyWith({
+    double? balance,
+    List<Map<String, dynamic>>? history,
+    bool? loading,
+  }) => PaymentState(
+    balance: balance ?? this.balance,
+    history: history ?? this.history,
+    loading: loading ?? this.loading,
+  );
 }
 
 class PaymentNotifier extends Notifier<PaymentState> {
@@ -64,4 +71,6 @@ class PaymentNotifier extends Notifier<PaymentState> {
   }
 }
 
-final paymentProvider = NotifierProvider<PaymentNotifier, PaymentState>(PaymentNotifier.new);
+final paymentProvider = NotifierProvider<PaymentNotifier, PaymentState>(
+  PaymentNotifier.new,
+);

@@ -1,6 +1,9 @@
 abstract class PaymentRepository {
   Future<double> getBalance();
-  Future<bool> processNfcPayment({required double amount, required bool paymentLocked});
+  Future<bool> processNfcPayment({
+    required double amount,
+    required bool paymentLocked,
+  });
   Future<void> topUp({required double amount});
   Future<List<Map<String, dynamic>>> getHistory();
 }
@@ -17,12 +20,19 @@ class DemoPaymentRepository implements PaymentRepository {
   Future<double> getBalance() async => _balance;
 
   @override
-  Future<bool> processNfcPayment({required double amount, required bool paymentLocked}) async {
+  Future<bool> processNfcPayment({
+    required double amount,
+    required bool paymentLocked,
+  }) async {
     if (paymentLocked) return false;
     if (_balance < amount) return false;
     await Future.delayed(const Duration(milliseconds: 400));
     _balance -= amount;
-    _history.insert(0, {'label': 'Paiement NFC', 'amount': -amount, 'ts': 'maintenant'});
+    _history.insert(0, {
+      'label': 'Paiement NFC',
+      'amount': -amount,
+      'ts': 'maintenant',
+    });
     return true;
   }
 
@@ -30,7 +40,11 @@ class DemoPaymentRepository implements PaymentRepository {
   Future<void> topUp({required double amount}) async {
     await Future.delayed(const Duration(milliseconds: 300));
     _balance += amount;
-    _history.insert(0, {'label': 'Rechargement', 'amount': amount, 'ts': 'maintenant'});
+    _history.insert(0, {
+      'label': 'Rechargement',
+      'amount': amount,
+      'ts': 'maintenant',
+    });
   }
 
   @override

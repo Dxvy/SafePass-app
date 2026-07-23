@@ -65,7 +65,9 @@ void main() {
 
   group("PaymentLockService — confirmUserIsOk", () {
     test("'I'm OK' re-enables payments and logs the event", () async {
-      service.currentState = const PaymentLockState.locked(reason: AlertType.noPulse);
+      service.currentState = const PaymentLockState.locked(
+        reason: AlertType.noPulse,
+      );
 
       await service.confirmUserIsOk();
 
@@ -75,7 +77,9 @@ void main() {
     });
 
     test('does NOT unlock when reason is sosManual (requires staff)', () async {
-      service.currentState = const PaymentLockState.locked(reason: AlertType.sosManual);
+      service.currentState = const PaymentLockState.locked(
+        reason: AlertType.sosManual,
+      );
 
       await service.confirmUserIsOk();
 
@@ -93,7 +97,9 @@ void main() {
 
   group('PaymentLockService — staffUnlock', () {
     test('staff can unlock SOS manual alerts', () async {
-      service.currentState = const PaymentLockState.locked(reason: AlertType.sosManual);
+      service.currentState = const PaymentLockState.locked(
+        reason: AlertType.sosManual,
+      );
 
       await service.staffUnlock();
 
@@ -102,7 +108,9 @@ void main() {
     });
 
     test('staffUnlock logs a distinct event from user self-clear', () async {
-      service.currentState = const PaymentLockState.locked(reason: AlertType.noPulse);
+      service.currentState = const PaymentLockState.locked(
+        reason: AlertType.noPulse,
+      );
 
       await service.staffUnlock();
 

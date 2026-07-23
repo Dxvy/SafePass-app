@@ -16,13 +16,18 @@ class _NfcTapOverlayState extends ConsumerState<NfcTapOverlay> {
   String? _lastResult;
 
   Future<void> _simulateTap() async {
-    setState(() { _simulating = true; _lastResult = null; });
+    setState(() {
+      _simulating = true;
+      _lastResult = null;
+    });
     HapticFeedback.mediumImpact();
     final ok = await ref.read(paymentProvider.notifier).pay(amount: 6.0);
     if (mounted) {
       setState(() {
         _simulating = false;
-        _lastResult = ok ? '✅ Transaction réussie — 6,00 €' : '🔒 Paiement refusé';
+        _lastResult = ok
+            ? '✅ Transaction réussie — 6,00 €'
+            : '🔒 Paiement refusé';
       });
     }
   }
@@ -41,7 +46,9 @@ class _NfcTapOverlayState extends ConsumerState<NfcTapOverlay> {
           height: 120,
           decoration: BoxDecoration(
             border: Border.all(
-                color: isLocked ? AppColors.error : AppColors.accent, width: 2),
+              color: isLocked ? AppColors.error : AppColors.accent,
+              width: 2,
+            ),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Center(
@@ -51,7 +58,9 @@ class _NfcTapOverlayState extends ConsumerState<NfcTapOverlay> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        isLocked ? Icons.lock_outline : Icons.contactless_outlined,
+                        isLocked
+                            ? Icons.lock_outline
+                            : Icons.contactless_outlined,
                         size: 40,
                         color: isLocked ? AppColors.error : AppColors.accent,
                       ),
@@ -59,13 +68,19 @@ class _NfcTapOverlayState extends ConsumerState<NfcTapOverlay> {
                       Text(
                         isLocked ? 'Paiement bloqué' : 'Approcher le bracelet',
                         style: TextStyle(
-                            color: isLocked ? AppColors.error : AppColors.accent),
+                          color: isLocked ? AppColors.error : AppColors.accent,
+                        ),
                       ),
                       if (_lastResult != null) ...[
                         const SizedBox(height: 4),
-                        Text(_lastResult!,
-                            style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
-                      ]
+                        Text(
+                          _lastResult!,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
           ),

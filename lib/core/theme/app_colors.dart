@@ -10,5 +10,7 @@ abstract final class AppColors {
   static const amber = Color(0xFFED8936);
   static const textPrimary = Color(0xFFF7FAFC);
   static const textSecondary = Color(0xFFA0AEC0);
-  static const noPulseOverlay = Color(0xFFD69E2E); // amber — never red for no-pulse
+  static const noPulseOverlay = Color(
+    0xFFD69E2E,
+  ); // amber — never red for no-pulse
 }

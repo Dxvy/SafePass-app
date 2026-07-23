@@ -25,9 +25,10 @@ class SosScreen extends ConsumerWidget {
               const Text(
                 'Alerte SOS',
                 style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 16),
               const Text(
@@ -37,8 +38,10 @@ class SosScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 48),
               if (status == SosStatus.alertSent)
-                const Text('✅ Alerte envoyée',
-                    style: TextStyle(color: Colors.white, fontSize: 18))
+                const Text(
+                  '✅ Alerte envoyée',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                )
               else ...[
                 FilledButton(
                   style: FilledButton.styleFrom(
@@ -48,10 +51,14 @@ class SosScreen extends ConsumerWidget {
                   ),
                   onPressed: () async {
                     HapticFeedback.heavyImpact();
-                    await ref.read(sosControllerProvider.notifier).confirmSend();
+                    await ref
+                        .read(sosControllerProvider.notifier)
+                        .confirmSend();
                   },
-                  child: const Text('J\'ai besoin d\'aide',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  child: const Text(
+                    'J\'ai besoin d\'aide',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 OutlinedButton(
@@ -64,7 +71,10 @@ class SosScreen extends ConsumerWidget {
                     ref.read(sosControllerProvider.notifier).reset();
                     context.pop();
                   },
-                  child: const Text('Je vais bien', style: TextStyle(fontSize: 18)),
+                  child: const Text(
+                    'Je vais bien',
+                    style: TextStyle(fontSize: 18),
+                  ),
                 ),
               ],
             ],

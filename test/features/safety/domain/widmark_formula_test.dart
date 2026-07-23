@@ -26,16 +26,19 @@ void main() {
       expect(result.bac, 0.0);
     });
 
-    test('returns 0.0 g/L when BAC would be negative after long elapsed time', () {
-      final result = WidmarkFormula.estimate(
-        drinksInGrams: 10,
-        weightKg: 70,
-        sex: SexAssignedAtBirth.male,
-        hoursSinceFirstDrink: 24,
-      );
-      expect(result.bac, 0.0);
-      expect(result.zone, BacZone.safe);
-    });
+    test(
+      'returns 0.0 g/L when BAC would be negative after long elapsed time',
+      () {
+        final result = WidmarkFormula.estimate(
+          drinksInGrams: 10,
+          weightKg: 70,
+          sex: SexAssignedAtBirth.male,
+          hoursSinceFirstDrink: 24,
+        );
+        expect(result.bac, 0.0);
+        expect(result.zone, BacZone.safe);
+      },
+    );
 
     // --- R coefficient ---
 
@@ -119,25 +122,37 @@ void main() {
       expect(result.alcoholPurchaseBlocked, isFalse);
     });
 
-    test('classifies 0.95 g/L as BacZone.high and blocks NFC alcohol purchase', () {
-      final result = WidmarkFormula.estimate(
-        drinksInGrams: 55,
-        weightKg: 58,
-        sex: SexAssignedAtBirth.female,
-        hoursSinceFirstDrink: 1.5,
-      );
-      expect(result.zone, BacZone.high);
-      expect(result.alcoholPurchaseBlocked, isTrue);
-    });
+    test(
+      'classifies 0.95 g/L as BacZone.high and blocks NFC alcohol purchase',
+      () {
+        final result = WidmarkFormula.estimate(
+          drinksInGrams: 55,
+          weightKg: 58,
+          sex: SexAssignedAtBirth.female,
+          hoursSinceFirstDrink: 1.5,
+        );
+        expect(result.zone, BacZone.high);
+        expect(result.alcoholPurchaseBlocked, isTrue);
+      },
+    );
 
     test('BacZone.high has error color and dangerous icon', () {
-      expect(BacZone.high.color.toARGB32(), isNot(BacZone.safe.color.toARGB32()));
+      expect(
+        BacZone.high.color.toARGB32(),
+        isNot(BacZone.safe.color.toARGB32()),
+      );
       expect(BacZone.high.icon, isNotNull);
     });
 
     test('BacZone.moderate has distinct color from safe and high', () {
-      expect(BacZone.moderate.color.toARGB32(), isNot(BacZone.safe.color.toARGB32()));
-      expect(BacZone.moderate.color.toARGB32(), isNot(BacZone.high.color.toARGB32()));
+      expect(
+        BacZone.moderate.color.toARGB32(),
+        isNot(BacZone.safe.color.toARGB32()),
+      );
+      expect(
+        BacZone.moderate.color.toARGB32(),
+        isNot(BacZone.high.color.toARGB32()),
+      );
     });
 
     // --- Exact elapsed-time elimination ---

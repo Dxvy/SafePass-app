@@ -8,7 +8,7 @@ abstract class BraceletRepository {
 
 class PaymentLockService {
   PaymentLockService({required BraceletRepository braceletRepo})
-      : _repo = braceletRepo;
+    : _repo = braceletRepo;
 
   final BraceletRepository _repo;
   PaymentLockState currentState = const PaymentLockState.unlocked();

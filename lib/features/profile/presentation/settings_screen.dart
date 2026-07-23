@@ -28,8 +28,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Taille de police : ${(_fontSize * 100).round()} %',
-                    style: Theme.of(context).textTheme.labelMedium),
+                Text(
+                  'Taille de police : ${(_fontSize * 100).round()} %',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
                 Slider(
                   value: _fontSize,
                   min: 0.8,

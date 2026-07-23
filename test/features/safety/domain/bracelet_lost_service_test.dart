@@ -41,7 +41,10 @@ void main() {
       await braceletLostService.reportLost();
       await braceletLostService.verifyIdentity();
 
-      expect(braceletLostService.currentStep, BraceletLostStep.identityVerified);
+      expect(
+        braceletLostService.currentStep,
+        BraceletLostStep.identityVerified,
+      );
     });
 
     test('verifyIdentity is a no-op before reportLost', () async {

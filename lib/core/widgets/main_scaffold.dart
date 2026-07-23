@@ -31,10 +31,7 @@ class MainScaffold extends StatelessWidget {
         onDestinationSelected: (i) => context.go(_tabs[i].route),
         destinations: [
           for (final tab in _tabs)
-            NavigationDestination(
-              icon: Icon(tab.icon),
-              label: tab.label,
-            ),
+            NavigationDestination(icon: Icon(tab.icon), label: tab.label),
         ],
       ),
     );

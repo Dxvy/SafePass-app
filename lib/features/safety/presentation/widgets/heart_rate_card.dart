@@ -18,20 +18,24 @@ class HeartRateCard extends ConsumerWidget {
           padding: const EdgeInsets.all(16),
           child: Row(
             children: [
-              const Icon(Icons.favorite_outline, color: AppColors.error, size: 32),
+              const Icon(
+                Icons.favorite_outline,
+                color: AppColors.error,
+                size: 32,
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Fréquence cardiaque',
-                        style: Theme.of(context).textTheme.labelMedium),
+                    Text(
+                      'Fréquence cardiaque',
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
                     hrAsync.when(
                       data: (bpm) => Text(
                         '$bpm bpm',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall
+                        style: Theme.of(context).textTheme.headlineSmall
                             ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       loading: () => const SizedBox(
@@ -44,7 +48,10 @@ class HeartRateCard extends ConsumerWidget {
                   ],
                 ),
               ),
-              const Icon(Icons.monitor_heart_outlined, color: AppColors.textSecondary),
+              const Icon(
+                Icons.monitor_heart_outlined,
+                color: AppColors.textSecondary,
+              ),
             ],
           ),
         ),
