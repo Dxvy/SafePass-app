@@ -9,11 +9,13 @@ abstract class PaymentRepository {
 }
 
 class DemoPaymentRepository implements PaymentRepository {
-  double _balance = 42.50;
+  double _balance = 142.50;
   final List<Map<String, dynamic>> _history = [
-    {'label': 'Bière pression', 'amount': -6.0, 'ts': '14:32'},
-    {'label': 'Eau minérale', 'amount': -2.5, 'ts': '14:15'},
-    {'label': 'Rechargement', 'amount': 50.0, 'ts': '12:00'},
+    {'label': 'Main Stage Bar', 'amount': -12.0, 'ts': 'Today, 8:42 PM'},
+    {'label': 'Neon Tacos', 'amount': -15.50, 'ts': 'Today, 6:15 PM'},
+    {'label': 'Balance Top-up', 'amount': 100.0, 'ts': 'Yesterday, 11:00 AM'},
+    {'label': 'Forest Bar', 'amount': -8.0, 'ts': 'Yesterday, 9:30 PM'},
+    {'label': 'Water Station', 'amount': -2.0, 'ts': 'Yesterday, 7:00 PM'},
   ];
 
   @override
@@ -29,9 +31,9 @@ class DemoPaymentRepository implements PaymentRepository {
     await Future.delayed(const Duration(milliseconds: 400));
     _balance -= amount;
     _history.insert(0, {
-      'label': 'Paiement NFC',
+      'label': 'NFC Payment',
       'amount': -amount,
-      'ts': 'maintenant',
+      'ts': 'Just now',
     });
     return true;
   }
@@ -41,9 +43,9 @@ class DemoPaymentRepository implements PaymentRepository {
     await Future.delayed(const Duration(milliseconds: 300));
     _balance += amount;
     _history.insert(0, {
-      'label': 'Rechargement',
+      'label': 'Balance Top-up',
       'amount': amount,
-      'ts': 'maintenant',
+      'ts': 'Just now',
     });
   }
 
