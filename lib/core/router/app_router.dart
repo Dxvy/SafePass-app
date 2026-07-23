@@ -17,15 +17,27 @@ final appRouter = GoRouter(
       builder: (context, state, child) => MainScaffold(child: child),
       routes: [
         GoRoute(path: '/', builder: (_, __) => const SafetyDashboardScreen()),
-        GoRoute(path: '/safety', builder: (_, __) => const SafetyDashboardScreen()),
-        GoRoute(path: '/safety/bac', builder: (_, __) => const BacMonitorScreen()),
+        GoRoute(
+          path: '/safety',
+          builder: (_, __) => const SafetyDashboardScreen(),
+        ),
+        GoRoute(
+          path: '/safety/bac',
+          builder: (_, __) => const BacMonitorScreen(),
+        ),
         GoRoute(path: '/safety/sos', builder: (_, __) => const SosScreen()),
         GoRoute(path: '/payment', builder: (_, __) => const PaymentScreen()),
-        GoRoute(path: '/payment/recharge', builder: (_, __) => const RechargeScreen()),
+        GoRoute(
+          path: '/payment/recharge',
+          builder: (_, __) => const RechargeScreen(),
+        ),
         GoRoute(path: '/map', builder: (_, __) => const MapScreen()),
         GoRoute(path: '/map/buddy', builder: (_, __) => const BuddyScreen()),
         GoRoute(path: '/profile', builder: (_, __) => const ProfileScreen()),
-        GoRoute(path: '/profile/settings', builder: (_, __) => const SettingsScreen()),
+        GoRoute(
+          path: '/profile/settings',
+          builder: (_, __) => const SettingsScreen(),
+        ),
       ],
     ),
   ],

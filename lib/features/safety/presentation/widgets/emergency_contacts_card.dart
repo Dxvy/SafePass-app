@@ -22,17 +22,23 @@ class EmergencyContactsCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Contacts d\'urgence',
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                'Contacts d\'urgence',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 8),
               for (final c in _contacts)
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Icon(c.icon, color: AppColors.accent),
                   title: Text(c.name),
-                  trailing: Text(c.number,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: AppColors.accent)),
+                  trailing: Text(
+                    c.number,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.accent,
+                    ),
+                  ),
                 ),
             ],
           ),

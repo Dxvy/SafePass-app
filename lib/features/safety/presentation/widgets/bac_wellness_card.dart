@@ -15,7 +15,8 @@ class BacWellnessCard extends ConsumerWidget {
     final bac = state.result?.bac ?? 0.0;
 
     return Semantics(
-      label: 'Niveau de bien-être alcool : zone ${zone.name}, ${bac.toStringAsFixed(2)} g/L',
+      label:
+          'Niveau de bien-être alcool : zone ${zone.name}, ${bac.toStringAsFixed(2)} g/L',
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 8),
         child: InkWell(
@@ -38,10 +39,11 @@ class BacWellnessCard extends ConsumerWidget {
                       ),
                       Text(
                         '${bac.toStringAsFixed(2)} g/L',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall
-                            ?.copyWith(color: zone.color, fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.headlineSmall
+                            ?.copyWith(
+                              color: zone.color,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                     ],
                   ),

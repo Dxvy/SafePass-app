@@ -17,8 +17,10 @@ class RechargeScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(AppSizes.screenPadding),
         child: Column(
           children: [
-            Text('Choisissez un montant',
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Choisissez un montant',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 24),
             GridView.count(
               shrinkWrap: true,
@@ -29,11 +31,15 @@ class RechargeScreen extends ConsumerWidget {
                 for (final amount in _amounts)
                   FilledButton(
                     onPressed: () async {
-                      await ref.read(paymentProvider.notifier).topUp(amount: amount);
+                      await ref
+                          .read(paymentProvider.notifier)
+                          .topUp(amount: amount);
                       if (context.mounted) context.pop();
                     },
-                    child: Text('+${amount.toStringAsFixed(0)} €',
-                        style: const TextStyle(fontSize: 20)),
+                    child: Text(
+                      '+${amount.toStringAsFixed(0)} €',
+                      style: const TextStyle(fontSize: 20),
+                    ),
                   ),
               ],
             ),

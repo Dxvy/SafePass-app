@@ -35,14 +35,13 @@ class BacInputState {
     SexAssignedAtBirth? sex,
     double? hoursSinceFirstDrink,
     WidmarkResult? result,
-  }) =>
-      BacInputState(
-        drinksInGrams: drinksInGrams ?? this.drinksInGrams,
-        weightKg: weightKg ?? this.weightKg,
-        sex: sex ?? this.sex,
-        hoursSinceFirstDrink: hoursSinceFirstDrink ?? this.hoursSinceFirstDrink,
-        result: result ?? this.result,
-      );
+  }) => BacInputState(
+    drinksInGrams: drinksInGrams ?? this.drinksInGrams,
+    weightKg: weightKg ?? this.weightKg,
+    sex: sex ?? this.sex,
+    hoursSinceFirstDrink: hoursSinceFirstDrink ?? this.hoursSinceFirstDrink,
+    result: result ?? this.result,
+  );
 }
 
 class BacMonitorNotifier extends Notifier<BacInputState> {

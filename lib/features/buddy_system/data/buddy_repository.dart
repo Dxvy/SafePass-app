@@ -13,7 +13,10 @@ class DemoBuddyRepository implements BuddyRepository {
   final _controller = StreamController<List<BuddyPosition>>.broadcast();
 
   // Base positions near Paris (demo festival)
-  static const _base = [(lat: 48.866, lng: 2.333, name: 'Camille'), (lat: 48.865, lng: 2.335, name: 'Hugo')];
+  static const _base = [
+    (lat: 48.866, lng: 2.333, name: 'Camille'),
+    (lat: 48.865, lng: 2.335, name: 'Hugo'),
+  ];
 
   DemoBuddyRepository() {
     _startEmitting();
@@ -39,7 +42,10 @@ class DemoBuddyRepository implements BuddyRepository {
   Stream<List<BuddyPosition>> get buddyPositionsStream => _controller.stream;
 
   @override
-  Future<void> sharePosition({required double lat, required double lng}) async {}
+  Future<void> sharePosition({
+    required double lat,
+    required double lng,
+  }) async {}
 
   @override
   Future<void> stopSharing() async {}

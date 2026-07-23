@@ -59,7 +59,9 @@ class WidmarkFormula {
     required double hoursSinceFirstDrink,
   }) {
     if (hoursSinceFirstDrink < 0) {
-      throw ArgumentError('hoursSinceFirstDrink must be >= 0, got $hoursSinceFirstDrink');
+      throw ArgumentError(
+        'hoursSinceFirstDrink must be >= 0, got $hoursSinceFirstDrink',
+      );
     }
 
     if (drinksInGrams <= 0 || weightKg <= 0) {
@@ -78,14 +80,16 @@ class WidmarkFormula {
     };
 
     // Widmark formula: BAC = (alcohol_g / (weight_kg * r)) - (elimination_rate * hours)
-    final raw = (drinksInGrams / (weightKg * r)) - (_eliminationRate * hoursSinceFirstDrink);
+    final raw =
+        (drinksInGrams / (weightKg * r)) -
+        (_eliminationRate * hoursSinceFirstDrink);
     final bac = raw < 0 ? 0.0 : raw;
 
     final zone = bac >= 0.80
         ? BacZone.high
         : bac >= 0.50
-            ? BacZone.moderate
-            : BacZone.safe;
+        ? BacZone.moderate
+        : BacZone.safe;
 
     return WidmarkResult(
       bac: bac,

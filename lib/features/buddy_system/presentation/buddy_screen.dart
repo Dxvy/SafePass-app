@@ -29,12 +29,17 @@ class _BuddyScreenState extends State<BuddyScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Partage de position',
-                      style: Theme.of(context).textTheme.titleMedium),
+                  Text(
+                    'Partage de position',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                   const SizedBox(height: 8),
                   const Text(
                     'Visible uniquement par vos amis du groupe. Suppression automatique en fin d\'événement (RGPD).',
-                    style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),
@@ -44,9 +49,13 @@ class _BuddyScreenState extends State<BuddyScreen> {
           Text('Mes amis', style: Theme.of(context).textTheme.titleSmall),
           for (var i = 0; i < _buddies.length; i++)
             Semantics(
-              label: '${_buddies[i]['name']} — partage ${_buddies[i]['sharing'] == true ? 'activé' : 'désactivé'}',
+              label:
+                  '${_buddies[i]['name']} — partage ${_buddies[i]['sharing'] == true ? 'activé' : 'désactivé'}',
               child: SwitchListTile(
-                secondary: const Icon(Icons.person_outline, color: AppColors.accent),
+                secondary: const Icon(
+                  Icons.person_outline,
+                  color: AppColors.accent,
+                ),
                 title: Text(_buddies[i]['name'] as String),
                 subtitle: Text(
                   _buddies[i]['sharing'] == true

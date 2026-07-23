@@ -29,8 +29,10 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           const Center(
-            child: Text('Davy Marthely',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            child: Text(
+              'Davy Marthely',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
           const SizedBox(height: 24),
           ListTile(
@@ -41,7 +43,10 @@ class ProfileScreen extends StatelessWidget {
             onTap: () {},
           ),
           ListTile(
-            leading: const Icon(Icons.privacy_tip_outlined, color: AppColors.accent),
+            leading: const Icon(
+              Icons.privacy_tip_outlined,
+              color: AppColors.accent,
+            ),
             title: const Text('Consentement RGPD'),
             subtitle: const Text('Consenti le 01/07/2026'),
             onTap: () {},

@@ -62,9 +62,9 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
                   Text(
                     '${bacState.result!.bac.toStringAsFixed(2)} g/L',
                     style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                          color: zone.color,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      color: zone.color,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
@@ -79,8 +79,10 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
               const SizedBox(height: 24),
             ],
             // Inputs
-            Text('Consommation (g d\'alcool pur)',
-                style: Theme.of(context).textTheme.labelMedium),
+            Text(
+              'Consommation (g d\'alcool pur)',
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
             Slider(
               value: _drinks,
               min: 0,
@@ -98,8 +100,10 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
               label: '${_weight.round()} kg',
               onChanged: (v) => setState(() => _weight = v),
             ),
-            Text('Heures depuis le premier verre',
-                style: Theme.of(context).textTheme.labelMedium),
+            Text(
+              'Heures depuis le premier verre',
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
             Slider(
               value: _hours,
               min: 0,
@@ -111,19 +115,26 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
             SegmentedButton<SexAssignedAtBirth>(
               segments: const [
                 ButtonSegment(
-                    value: SexAssignedAtBirth.male, label: Text('Homme')),
+                  value: SexAssignedAtBirth.male,
+                  label: Text('Homme'),
+                ),
                 ButtonSegment(
-                    value: SexAssignedAtBirth.unspecified,
-                    label: Text('Non précisé')),
+                  value: SexAssignedAtBirth.unspecified,
+                  label: Text('Non précisé'),
+                ),
                 ButtonSegment(
-                    value: SexAssignedAtBirth.female, label: Text('Femme')),
+                  value: SexAssignedAtBirth.female,
+                  label: Text('Femme'),
+                ),
               ],
               selected: {_sex},
               onSelectionChanged: (s) => setState(() => _sex = s.first),
             ),
             const SizedBox(height: 24),
             FilledButton(
-              onPressed: () => ref.read(bacMonitorProvider.notifier).estimate(
+              onPressed: () => ref
+                  .read(bacMonitorProvider.notifier)
+                  .estimate(
                     drinksInGrams: _drinks,
                     weightKg: _weight,
                     sex: _sex,
