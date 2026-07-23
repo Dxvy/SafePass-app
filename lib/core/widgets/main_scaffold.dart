@@ -7,32 +7,41 @@ class MainScaffold extends StatelessWidget {
   final Widget child;
 
   static const _tabs = [
-    (icon: Icons.shield_outlined, label: 'Sécurité', route: '/safety'),
-    (icon: Icons.contactless_outlined, label: 'Paiement', route: '/payment'),
-    (icon: Icons.map_outlined, label: 'Carte', route: '/map'),
-    (icon: Icons.person_outline, label: 'Profil', route: '/profile'),
+    (icon: Icons.home_outlined, active: Icons.home, label: 'Home', route: '/'),
+    (icon: Icons.map_outlined, active: Icons.map, label: 'Map', route: '/map'),
+    (icon: Icons.contactless_outlined, active: Icons.contactless, label: 'Pay', route: '/payment'),
+    (icon: Icons.person_outline, active: Icons.person, label: 'Profile', route: '/profile'),
   ];
 
   int _indexFor(BuildContext context) {
     final loc = GoRouterState.of(context).uri.path;
-    if (loc.startsWith('/payment')) return 1;
-    if (loc.startsWith('/map')) return 2;
+    if (loc.startsWith('/map')) return 1;
+    if (loc.startsWith('/payment')) return 2;
     if (loc.startsWith('/profile')) return 3;
     return 0;
   }
 
   @override
   Widget build(BuildContext context) {
+    final idx = _indexFor(context);
     return Scaffold(
       body: child,
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: AppColors.surface,
-        selectedIndex: _indexFor(context),
-        onDestinationSelected: (i) => context.go(_tabs[i].route),
-        destinations: [
-          for (final tab in _tabs)
-            NavigationDestination(icon: Icon(tab.icon), label: tab.label),
-        ],
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(color: Color(0xFF2A2A3E), width: 1)),
+        ),
+        child: NavigationBar(
+          selectedIndex: idx,
+          onDestinationSelected: (i) => context.go(_tabs[i].route),
+          destinations: [
+            for (final tab in _tabs)
+              NavigationDestination(
+                icon: Icon(tab.icon),
+                selectedIcon: Icon(tab.active, color: AppColors.primary),
+                label: tab.label,
+              ),
+          ],
+        ),
       ),
     );
   }
