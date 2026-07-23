@@ -9,8 +9,18 @@ class MainScaffold extends StatelessWidget {
   static const _tabs = [
     (icon: Icons.home_outlined, active: Icons.home, label: 'Home', route: '/'),
     (icon: Icons.map_outlined, active: Icons.map, label: 'Map', route: '/map'),
-    (icon: Icons.contactless_outlined, active: Icons.contactless, label: 'Pay', route: '/payment'),
-    (icon: Icons.person_outline, active: Icons.person, label: 'Profile', route: '/profile'),
+    (
+      icon: Icons.contactless_outlined,
+      active: Icons.contactless,
+      label: 'Pay',
+      route: '/payment',
+    ),
+    (
+      icon: Icons.person_outline,
+      active: Icons.person,
+      label: 'Profile',
+      route: '/profile',
+    ),
   ];
 
   int _indexFor(BuildContext context) {

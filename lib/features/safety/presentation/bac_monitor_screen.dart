@@ -1,4 +1,4 @@
-﻿import 'dart:math';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -24,12 +24,14 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(bacMonitorProvider.notifier).estimate(
-        drinksInGrams: _drinks,
-        weightKg: _weight,
-        sex: _sex,
-        hoursSinceFirstDrink: _hours,
-      );
+      ref
+          .read(bacMonitorProvider.notifier)
+          .estimate(
+            drinksInGrams: _drinks,
+            weightKg: _weight,
+            sex: _sex,
+            hoursSinceFirstDrink: _hours,
+          );
     });
   }
 
@@ -42,13 +44,25 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Safety Monitor',
-          style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Safety Monitor',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         leading: IconButton(
           icon: Container(
             padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(color: AppColors.surface, shape: BoxShape.circle),
-            child: const Icon(Icons.arrow_back, color: AppColors.textPrimary, size: 18),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.arrow_back,
+              color: AppColors.textPrimary,
+              size: 18,
+            ),
           ),
           onPressed: () => context.pop(),
         ),
@@ -68,10 +82,18 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
             const SizedBox(height: 20),
             TextButton.icon(
               onPressed: () => setState(() => _showInputs = !_showInputs),
-              icon: Icon(_showInputs ? Icons.expand_less : Icons.edit_outlined,
-                color: AppColors.primary, size: 18),
-              label: Text(_showInputs ? 'Hide inputs' : 'Update my data',
-                style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600)),
+              icon: Icon(
+                _showInputs ? Icons.expand_less : Icons.edit_outlined,
+                color: AppColors.primary,
+                size: 18,
+              ),
+              label: Text(
+                _showInputs ? 'Hide inputs' : 'Update my data',
+                style: const TextStyle(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
             if (_showInputs) ...[
               const SizedBox(height: 8),
@@ -84,12 +106,14 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
                 onWeightChanged: (v) => setState(() => _weight = v),
                 onSexChanged: (v) => setState(() => _sex = v),
                 onHoursChanged: (v) => setState(() => _hours = v),
-                onEstimate: () => ref.read(bacMonitorProvider.notifier).estimate(
-                  drinksInGrams: _drinks,
-                  weightKg: _weight,
-                  sex: _sex,
-                  hoursSinceFirstDrink: _hours,
-                ),
+                onEstimate: () => ref
+                    .read(bacMonitorProvider.notifier)
+                    .estimate(
+                      drinksInGrams: _drinks,
+                      weightKg: _weight,
+                      sex: _sex,
+                      hoursSinceFirstDrink: _hours,
+                    ),
               ),
             ],
             const SizedBox(height: 20),
@@ -120,10 +144,20 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.local_hospital_outlined, color: AppColors.primary, size: 16),
+                  Icon(
+                    Icons.local_hospital_outlined,
+                    color: AppColors.primary,
+                    size: 16,
+                  ),
                   const SizedBox(width: 6),
-                  const Text('Find Nearest First Aid Station',
-                    style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600, fontSize: 14)),
+                  const Text(
+                    'Find Nearest First Aid Station',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -157,8 +191,15 @@ class _BacGauge extends StatelessWidget {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('CURRENT BAC',
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 12, letterSpacing: 1.2, fontWeight: FontWeight.w600)),
+              const Text(
+                'CURRENT BAC',
+                style: TextStyle(
+                  color: AppColors.textSecondary,
+                  fontSize: 12,
+                  letterSpacing: 1.2,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               const SizedBox(height: 4),
               Row(
                 mainAxisSize: MainAxisSize.min,
@@ -166,17 +207,37 @@ class _BacGauge extends StatelessWidget {
                 children: [
                   Text(
                     bac.toStringAsFixed(2),
-                    style: const TextStyle(color: AppColors.textPrimary, fontSize: 52, fontWeight: FontWeight.bold, height: 1),
+                    style: const TextStyle(
+                      color: AppColors.textPrimary,
+                      fontSize: 52,
+                      fontWeight: FontWeight.bold,
+                      height: 1,
+                    ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(bottom: 8),
-                    child: Text('%', style: TextStyle(color: AppColors.textSecondary, fontSize: 22, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      '%',
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),
               Text(
-                zone == BacZone.safe ? 'Safe' : zone == BacZone.moderate ? 'Moderate' : 'High',
-                style: TextStyle(color: zone.color, fontSize: 16, fontWeight: FontWeight.w600),
+                zone == BacZone.safe
+                    ? 'Safe'
+                    : zone == BacZone.moderate
+                    ? 'Moderate'
+                    : 'High',
+                style: TextStyle(
+                  color: zone.color,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
@@ -203,7 +264,10 @@ class _GaugePainter extends CustomPainter {
     final sweep = _sweepDeg * pi / 180;
 
     canvas.drawArc(
-      rect, start, sweep, false,
+      rect,
+      start,
+      sweep,
+      false,
       Paint()
         ..color = const Color(0xFF2A2A3E)
         ..style = PaintingStyle.stroke
@@ -213,7 +277,10 @@ class _GaugePainter extends CustomPainter {
 
     if (progress > 0.01) {
       canvas.drawArc(
-        rect, start, sweep * progress, false,
+        rect,
+        start,
+        sweep * progress,
+        false,
         Paint()
           ..color = color
           ..style = PaintingStyle.stroke
@@ -224,7 +291,8 @@ class _GaugePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_GaugePainter old) => old.progress != progress || old.color != color;
+  bool shouldRepaint(_GaugePainter old) =>
+      old.progress != progress || old.color != color;
 }
 
 // ── Status card ───────────────────────────────────────────────────────────────
@@ -238,19 +306,31 @@ class _StatusCard extends StatelessWidget {
     final isSafe = zone == BacZone.safe;
     return Container(
       padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(18)),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(18),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(isSafe ? Icons.check_circle : zone.icon, color: isSafe ? AppColors.success : zone.color, size: 22),
+              Icon(
+                isSafe ? Icons.check_circle : zone.icon,
+                color: isSafe ? AppColors.success : zone.color,
+                size: 22,
+              ),
               const SizedBox(width: 10),
               Text(
-                isSafe ? 'Safe to go' : zone == BacZone.moderate ? 'Be careful' : 'High level — rest',
+                isSafe
+                    ? 'Safe to go'
+                    : zone == BacZone.moderate
+                    ? 'Be careful'
+                    : 'High level — rest',
                 style: TextStyle(
                   color: isSafe ? AppColors.success : zone.color,
-                  fontSize: 17, fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -258,11 +338,15 @@ class _StatusCard extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             isSafe
-              ? 'You are currently within legal limits. Please continue to monitor your intake and drink responsibly.'
-              : zone == BacZone.moderate
+                ? 'You are currently within legal limits. Please continue to monitor your intake and drink responsibly.'
+                : zone == BacZone.moderate
                 ? 'Alcohol purchase has been monitored. Drink water and rest before any activity.'
                 : 'Your NFC payment for alcohol is blocked. Please hydrate and find a SafePass staff member.',
-            style: const TextStyle(color: AppColors.textSecondary, fontSize: 14, height: 1.5),
+            style: const TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 14,
+              height: 1.5,
+            ),
           ),
           const SizedBox(height: 14),
           SizedBox(
@@ -272,9 +356,14 @@ class _StatusCard extends StatelessWidget {
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
-              child: const Text('View Legal Guidelines', style: TextStyle(fontWeight: FontWeight.bold)),
+              child: const Text(
+                'View Legal Guidelines',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],
@@ -296,26 +385,68 @@ class _TimeCard extends StatelessWidget {
     final soberM = ((soberIn - soberH) * 60).round();
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(18)),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(18),
+      ),
       child: Column(
         children: [
           Row(
             children: [
-              const Icon(Icons.access_time_outlined, color: AppColors.textSecondary, size: 20),
+              const Icon(
+                Icons.access_time_outlined,
+                color: AppColors.textSecondary,
+                size: 20,
+              ),
               const SizedBox(width: 12),
-              const Expanded(child: Text('Last drink time', style: TextStyle(color: AppColors.textSecondary, fontSize: 14))),
-              const Text('10:45 PM', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 14)),
+              const Expanded(
+                child: Text(
+                  'Last drink time',
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              const Text(
+                '10:45 PM',
+                style: TextStyle(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
             ],
           ),
           const Divider(color: Color(0xFF2A2A3E), height: 20),
           Row(
             children: [
-              const Icon(Icons.timer_outlined, color: AppColors.textSecondary, size: 20),
+              const Icon(
+                Icons.timer_outlined,
+                color: AppColors.textSecondary,
+                size: 20,
+              ),
               const SizedBox(width: 12),
-              const Expanded(child: Text('Estimated sober time', style: TextStyle(color: AppColors.textSecondary, fontSize: 14))),
+              const Expanded(
+                child: Text(
+                  'Estimated sober time',
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
               Text(
-                soberH > 0 ? '${soberH}h ${soberM}m' : soberM > 0 ? '${soberM}m' : 'Sober',
-                style: const TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 14),
+                soberH > 0
+                    ? '${soberH}h ${soberM}m'
+                    : soberM > 0
+                    ? '${soberM}m'
+                    : 'Sober',
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
               ),
             ],
           ),
@@ -334,18 +465,33 @@ class _HydrationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(18)),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(18),
+      ),
       child: Row(
         children: [
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Hydration Suggestion',
-                  style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text(
+                  'Hydration Suggestion',
+                  style: TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 6),
-                const Text('Drink 500ml of water before your next alcoholic beverage to stay balanced.',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
+                const Text(
+                  'Drink 500ml of water before your next alcoholic beverage to stay balanced.',
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 13,
+                    height: 1.4,
+                  ),
+                ),
                 const SizedBox(height: 14),
                 OutlinedButton.icon(
                   onPressed: () {},
@@ -354,8 +500,13 @@ class _HydrationCard extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textPrimary,
                     side: const BorderSide(color: Color(0xFF2A2A3E)),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
                   ),
                 ),
               ],
@@ -363,12 +514,17 @@ class _HydrationCard extends StatelessWidget {
           ),
           const SizedBox(width: 14),
           Container(
-            width: 56, height: 56,
+            width: 56,
+            height: 56,
             decoration: BoxDecoration(
               color: AppColors.primary.withAlpha(40),
               borderRadius: BorderRadius.circular(14),
             ),
-            child: const Icon(Icons.water_drop_outlined, color: AppColors.primary, size: 28),
+            child: const Icon(
+              Icons.water_drop_outlined,
+              color: AppColors.primary,
+              size: 28,
+            ),
           ),
         ],
       ),
@@ -401,33 +557,75 @@ class _InputsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(color: AppColors.surface, borderRadius: BorderRadius.circular(18)),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(18),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Alcohol (g)', style: Theme.of(context).textTheme.labelMedium?.copyWith(color: AppColors.textSecondary)),
-          Slider(value: drinks, min: 0, max: 120, divisions: 24,
+          Text(
+            'Alcohol (g)',
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium?.copyWith(color: AppColors.textSecondary),
+          ),
+          Slider(
+            value: drinks,
+            min: 0,
+            max: 120,
+            divisions: 24,
             activeColor: AppColors.primary,
-            label: '${drinks.round()} g', onChanged: onDrinksChanged),
-          Text('Weight (kg)', style: Theme.of(context).textTheme.labelMedium?.copyWith(color: AppColors.textSecondary)),
-          Slider(value: weight, min: 30, max: 150, divisions: 24,
+            label: '${drinks.round()} g',
+            onChanged: onDrinksChanged,
+          ),
+          Text(
+            'Weight (kg)',
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium?.copyWith(color: AppColors.textSecondary),
+          ),
+          Slider(
+            value: weight,
+            min: 30,
+            max: 150,
+            divisions: 24,
             activeColor: AppColors.primary,
-            label: '${weight.round()} kg', onChanged: onWeightChanged),
-          Text('Hours since first drink', style: Theme.of(context).textTheme.labelMedium?.copyWith(color: AppColors.textSecondary)),
-          Slider(value: hours, min: 0, max: 12, divisions: 24,
+            label: '${weight.round()} kg',
+            onChanged: onWeightChanged,
+          ),
+          Text(
+            'Hours since first drink',
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium?.copyWith(color: AppColors.textSecondary),
+          ),
+          Slider(
+            value: hours,
+            min: 0,
+            max: 12,
+            divisions: 24,
             activeColor: AppColors.primary,
-            label: '${hours.toStringAsFixed(1)} h', onChanged: onHoursChanged),
+            label: '${hours.toStringAsFixed(1)} h',
+            onChanged: onHoursChanged,
+          ),
           SegmentedButton<SexAssignedAtBirth>(
             segments: const [
               ButtonSegment(value: SexAssignedAtBirth.male, label: Text('M')),
-              ButtonSegment(value: SexAssignedAtBirth.unspecified, label: Text('N/A')),
+              ButtonSegment(
+                value: SexAssignedAtBirth.unspecified,
+                label: Text('N/A'),
+              ),
               ButtonSegment(value: SexAssignedAtBirth.female, label: Text('F')),
             ],
             selected: {sex},
             onSelectionChanged: (s) => onSexChanged(s.first),
             style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.resolveWith((s) =>
-                s.contains(WidgetState.selected) ? AppColors.primary.withAlpha(60) : null),
+              backgroundColor: WidgetStateProperty.resolveWith(
+                (s) => s.contains(WidgetState.selected)
+                    ? AppColors.primary.withAlpha(60)
+                    : null,
+              ),
             ),
           ),
           const SizedBox(height: 14),
@@ -436,7 +634,10 @@ class _InputsCard extends StatelessWidget {
             child: FilledButton(
               onPressed: onEstimate,
               style: FilledButton.styleFrom(backgroundColor: AppColors.primary),
-              child: const Text('Estimate', style: TextStyle(fontWeight: FontWeight.bold)),
+              child: const Text(
+                'Estimate',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ],

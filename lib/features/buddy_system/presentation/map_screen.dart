@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -37,11 +37,19 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           icon: const Icon(Icons.menu, color: AppColors.textPrimary),
           onPressed: () {},
         ),
-        title: const Text('Festival Map',
-          style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Festival Map',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications_none_outlined, color: AppColors.textPrimary),
+            icon: const Icon(
+              Icons.notifications_none_outlined,
+              color: AppColors.textPrimary,
+            ),
             onPressed: () {},
           ),
         ],
@@ -62,7 +70,10 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   onTap: () => setState(() => _filterIndex = i),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
                       color: selected ? AppColors.primary : AppColors.surface,
                       borderRadius: BorderRadius.circular(24),
@@ -70,8 +81,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     child: Text(
                       _filters[i],
                       style: TextStyle(
-                        color: selected ? Colors.white : AppColors.textSecondary,
-                        fontWeight: selected ? FontWeight.w700 : FontWeight.normal,
+                        color: selected
+                            ? Colors.white
+                            : AppColors.textSecondary,
+                        fontWeight: selected
+                            ? FontWeight.w700
+                            : FontWeight.normal,
                         fontSize: 14,
                       ),
                     ),
@@ -94,8 +109,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   SizedBox(width: 12),
                   Icon(Icons.search, color: AppColors.textSecondary, size: 20),
                   SizedBox(width: 8),
-                  Text('Search stages or friends',
-                    style: TextStyle(color: AppColors.textSecondary, fontSize: 14)),
+                  Text(
+                    'Search stages or friends',
+                    style: TextStyle(
+                      color: AppColors.textSecondary,
+                      fontSize: 14,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -117,46 +137,72 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     Marker(
                       point: const LatLng(48.8665, 2.3335),
                       child: Container(
-                        width: 40, height: 40,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                           color: AppColors.primary,
                           shape: BoxShape.circle,
                           border: Border.all(color: Colors.white, width: 2),
                         ),
-                        child: const Icon(Icons.person, color: Colors.white, size: 20),
+                        child: const Icon(
+                          Icons.person,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
                     ),
                     ...buddiesAsync.when(
-                      data: (buddies) => buddies.map((b) => Marker(
-                        point: LatLng(b.lat, b.lng),
-                        child: Semantics(
-                          label: 'Position de ${b.userId}',
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 34, height: 34,
-                                decoration: BoxDecoration(
-                                  color: AppColors.success,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.white, width: 2),
+                      data: (buddies) => buddies
+                          .map(
+                            (b) => Marker(
+                              point: LatLng(b.lat, b.lng),
+                              child: Semantics(
+                                label: 'Position de ${b.userId}',
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      width: 34,
+                                      height: 34,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.success,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 2,
+                                        ),
+                                      ),
+                                      child: const Icon(
+                                        Icons.person,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(top: 2),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 6,
+                                        vertical: 2,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black87,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        b.userId,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                child: const Icon(Icons.person, color: Colors.white, size: 18),
                               ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 2),
-                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                decoration: BoxDecoration(
-                                  color: Colors.black87,
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Text(b.userId,
-                                  style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )).toList(),
+                            ),
+                          )
+                          .toList(),
                       loading: () => [],
                       error: (_, __) => [],
                     ),
@@ -190,7 +236,8 @@ class _VenueSheet extends StatelessWidget {
         children: [
           Center(
             child: Container(
-              width: 40, height: 4,
+              width: 40,
+              height: 4,
               decoration: BoxDecoration(
                 color: AppColors.surfaceVariant,
                 borderRadius: BorderRadius.circular(2),
@@ -201,28 +248,50 @@ class _VenueSheet extends StatelessWidget {
           Row(
             children: [
               const Expanded(
-                child: Text('Neon Forest Bar',
-                  style: TextStyle(color: AppColors.textPrimary, fontSize: 22, fontWeight: FontWeight.bold)),
+                child: Text(
+                  'Neon Forest Bar',
+                  style: TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withAlpha(30),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: AppColors.primary.withAlpha(100)),
                 ),
-                child: const Text('POPULAR NOW',
-                  style: TextStyle(color: AppColors.primary, fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.5)),
+                child: const Text(
+                  'POPULAR NOW',
+                  style: TextStyle(
+                    color: AppColors.primary,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                  ),
+                ),
               ),
             ],
           ),
           const SizedBox(height: 6),
           const Row(
             children: [
-              Icon(Icons.location_on_outlined, color: AppColors.textSecondary, size: 14),
+              Icon(
+                Icons.location_on_outlined,
+                color: AppColors.textSecondary,
+                size: 14,
+              ),
               SizedBox(width: 4),
-              Text('120m away • 4 min walk',
-                style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+              Text(
+                '120m away • 4 min walk',
+                style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+              ),
             ],
           ),
           const SizedBox(height: 14),
@@ -238,11 +307,24 @@ class _VenueSheet extends StatelessWidget {
                   child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('QUEUE TIME',
-                        style: TextStyle(color: AppColors.textSecondary, fontSize: 11, letterSpacing: 1, fontWeight: FontWeight.w600)),
+                      Text(
+                        'QUEUE TIME',
+                        style: TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 11,
+                          letterSpacing: 1,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       SizedBox(height: 4),
-                      Text('~5 mins',
-                        style: TextStyle(color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.bold)),
+                      Text(
+                        '~5 mins',
+                        style: TextStyle(
+                          color: AppColors.textPrimary,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -258,18 +340,31 @@ class _VenueSheet extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('CROWD LEVEL',
-                        style: TextStyle(color: AppColors.textSecondary, fontSize: 11, letterSpacing: 1, fontWeight: FontWeight.w600)),
+                      const Text(
+                        'CROWD LEVEL',
+                        style: TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 11,
+                          letterSpacing: 1,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                       const SizedBox(height: 8),
                       Row(
-                        children: List.generate(5, (i) => Container(
-                          margin: const EdgeInsets.only(right: 4),
-                          width: 18, height: 6,
-                          decoration: BoxDecoration(
-                            color: i < 3 ? AppColors.primary : AppColors.surfaceVariant.withAlpha(200),
-                            borderRadius: BorderRadius.circular(3),
+                        children: List.generate(
+                          5,
+                          (i) => Container(
+                            margin: const EdgeInsets.only(right: 4),
+                            width: 18,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: i < 3
+                                  ? AppColors.primary
+                                  : AppColors.surfaceVariant.withAlpha(200),
+                              borderRadius: BorderRadius.circular(3),
+                            ),
                           ),
-                        )),
+                        ),
                       ),
                     ],
                   ),
@@ -283,11 +378,16 @@ class _VenueSheet extends StatelessWidget {
             child: FilledButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.contactless, size: 18),
-              label: const Text('Pay with App', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              label: const Text(
+                'Pay with App',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
               ),
             ),
           ),
@@ -297,12 +397,17 @@ class _VenueSheet extends StatelessWidget {
             child: OutlinedButton.icon(
               onPressed: () {},
               icon: const Icon(Icons.turn_right_outlined, size: 18),
-              label: const Text('Get Directions', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              label: const Text(
+                'Get Directions',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.textPrimary,
                 side: const BorderSide(color: Color(0xFF2A2A3E)),
                 padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
               ),
             ),
           ),
