@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(find:*)",
+      "Bash(flutter:*)",
+      "Bash(dart pub:*)",
+      "Read(//dev/**)",
+      "Bash(grep -rn \"import ''../../shared/widgets/app_card.dart''\" lib/features/map/map_screen.dart)",
+      "Bash(grep -rn \"import ''../auth/auth_provider.dart''\" lib/features/profile/health_info_screen.dart)",
+      "Bash(grep -rn \"import ''../home/home_provider.dart''\" lib/features/profile/profile_provider.dart)",
+      "Bash(sed -n 70,80p lib/core/services/ble_service.dart)",
+      "Bash(dart doc:*)",
+      "Read(//c/Users/davym/.pub-cache/hosted/pub.dev/flutter_blue_plus-2.2.1/**)",
+      "Bash(powershell -Command \"Get-ChildItem -Path 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev' -Filter 'flutter_blue_plus-*' -Directory | Select-Object Name\")",
+      "Bash(powershell -Command \"Select-String -Path 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\flutter_blue_plus-2.2.1\\\\lib\\\\src\\\\bluetooth_device.dart' -Pattern 'license|Future.*connect' | Select-Object -First 10\")",
+      "Bash(powershell -Command \"Select-String -Path 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\flutter_blue_plus-2.2.1\\\\lib\\\\src\\\\bluetooth_device.dart' -Pattern 'required License' | Select-Object Line\" && echo \"===\" && powershell -Command \"Select-String -Path 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\flutter_blue_plus-2.2.1\\\\lib\\\\src\\\\*.dart' -Pattern 'required License' | Select-Object Filename,Line\")",
+      "Bash(powershell -Command \"Select-String -Path 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib\\\\src\\\\*.dart' -Pattern 'pollingOptions|startSession|Ndef|NdefMessage|NdefRecord' | Select-Object Filename,Line | Select-Object -First 20\")",
+      "Bash(powershell -Command \"Get-ChildItem 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib' -Recurse | Select-Object FullName\" && echo \"===\" && powershell -Command \"Get-Content 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib\\\\nfc_manager.dart' | Select-Object -First 30\" 2>/dev/null)",
+      "Bash(powershell -Command \"Get-Content 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib\\\\src\\\\nfc_manager\\\\nfc_manager.dart'\")",
+      "Bash(powershell -Command \"Get-Content 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib\\\\ndef_record.dart'\" && echo \"===\" && powershell -Command \"Get-Content 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib\\\\src\\\\nfc_manager_android\\\\tags\\\\ndef.dart' | Select-Object -First 40\")",
+      "Bash(powershell -Command \"Select-String -Path 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib\\\\src\\\\nfc_manager_android\\\\tags\\\\ndef.dart' -Pattern 'static.*from|factory|read\\\\b|write\\\\b' | Select-Object Line\")",
+      "Bash(powershell -Command \"Select-String -Path 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib\\\\src\\\\nfc_manager_android\\\\tags\\\\ndef.dart' -Pattern 'Future|read|write' | Select-Object Line\")",
+      "Bash(powershell -Command \"Get-ChildItem 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib' -Filter '*.dart' | Select-Object Name\")",
+      "Bash(powershell -Command \"Select-String -Path 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\flutter_blue_plus-2.2.1\\\\lib\\\\src\\\\bluetooth_device.dart' -Pattern 'enum License|openSource|commercial|freeware' | Select-Object Line\" && echo \"===\" && powershell -Command \"Select-String -Path 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib\\\\src\\\\nfc_manager_ios\\\\tags\\\\ndef.dart' -Pattern 'isWritable|writeNdef|getNdef|class NdefIos' | Select-Object Line\" && echo \"===\" && powershell -Command \"Select-String -Path 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\ndef_record-1.4.2\\\\lib\\\\src\\\\*.dart' -Pattern 'NdefMessage|NdefRecord|createText|factory|class Ndef' | Select-Object -First 20 Line\")",
+      "Bash(powershell -Command \"\nGet-ChildItem 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\ndef_record-1.4.2\\\\lib' -Recurse -Filter '*.dart' | ForEach-Object { Write-Host \\\\$_.FullName }\necho '==='\nGet-Content 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\ndef_record-1.4.2\\\\lib\\\\ndef_record.dart' | Select-Object -First 30\n\")",
+      "Bash(powershell -Command \"Get-Content 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\ndef_record-1.4.2\\\\lib\\\\ndef_record.dart' | Select-String 'class NdefMessage|class NdefRecord|factory|createText|constructor' | Select-Object -First 20 Line\")",
+      "Bash(powershell -Command \"Get-Content 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\ndef_record-1.4.2\\\\lib\\\\ndef_record.dart' | Select-String 'NdefMessage|NdefRecord|records|payload|typeNameFormat|type\\\\b' | Select-Object -First 25 Line\")",
+      "Bash(powershell -Command \"Get-Content 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib\\\\src\\\\nfc_manager_ios\\\\tags\\\\ndef.dart' | Select-String 'isWritable|writeNdef|NdefStatusIos|writable' | Select-Object Line\")",
+      "Bash(powershell -Command \"Get-Content 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\nfc_manager-4.1.1\\\\lib\\\\src\\\\nfc_manager_ios\\\\tags\\\\ndef.dart' | Select-String 'enum NdefStatusIos|readWrite|readonly' | Select-Object Line\")",
+      "Bash(powershell -Command \"Get-Content 'C:\\\\Users\\\\davym\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\\\\ndef_record-1.4.2\\\\lib\\\\ndef_record.dart' | Select-String 'factory NdefRecord|required this|id\\\\b' | Select-Object Line\")",
+      "Bash(wc:*)"
+    ]
+  }
+}
