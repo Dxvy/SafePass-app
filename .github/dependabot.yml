@@ -1,0 +1,17 @@
+﻿version: 2
+updates:
+  # Flutter/Dart packages
+  - package-ecosystem: "pub"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 8
+    labels: ["dependencies", "needs-security-review"]
+    # Patch/minor auto-merge once CI is green; majors require manual review.
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    labels: ["dependencies"]
