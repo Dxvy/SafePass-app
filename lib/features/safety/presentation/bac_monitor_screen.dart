@@ -1,10 +1,11 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../domain/widmark_formula.dart';
 import 'providers/safety_providers.dart';
+import 'widgets/bac_gauge_widget.dart';
 
 class BacMonitorScreen extends ConsumerStatefulWidget {
   const BacMonitorScreen({super.key});
@@ -13,16 +14,32 @@ class BacMonitorScreen extends ConsumerStatefulWidget {
   ConsumerState<BacMonitorScreen> createState() => _BacMonitorScreenState();
 }
 
-class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
+class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen>
+    with SingleTickerProviderStateMixin {
   double _drinks = 10;
   double _weight = 70;
   SexAssignedAtBirth _sex = SexAssignedAtBirth.unspecified;
   double _hours = 1;
   bool _showInputs = false;
 
+  late AnimationController _pulseController;
+  late Animation<double> _pulseScale;
+  late Animation<double> _pulseOpacity;
+
   @override
   void initState() {
     super.initState();
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
+    _pulseScale = Tween<double>(begin: 1.0, end: 1.06).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
+    _pulseOpacity = Tween<double>(begin: 0.85, end: 1.0).animate(
+      CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
+    );
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref
           .read(bacMonitorProvider.notifier)
@@ -36,10 +53,17 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
   }
 
   @override
+  void dispose() {
+    _pulseController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(bacMonitorProvider);
     final bac = state.result?.bac ?? 0.04;
     final zone = state.result?.zone ?? BacZone.safe;
+    final isCritical = zone == BacZone.high;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -72,13 +96,58 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
         child: Column(
           children: [
             const SizedBox(height: 12),
-            _BacGauge(bac: bac, zone: zone),
+            BacGauge(bac: bac, zone: zone),
             const SizedBox(height: 24),
+
+            // Pulsing SOS button — only shown when BAC is critical
+            if (isCritical) ...[
+              AnimatedBuilder(
+                animation: _pulseController,
+                builder: (context, child) => Transform.scale(
+                  scale: _pulseScale.value,
+                  child: Opacity(opacity: _pulseOpacity.value, child: child),
+                ),
+                child: Semantics(
+                  label: 'SOS Emergency. Press to call for help immediately.',
+                  button: true,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FilledButton.icon(
+                      onPressed: () {
+                        HapticFeedback.heavyImpact();
+                        context.push('/safety/sos');
+                      },
+                      icon: const Icon(Icons.emergency, size: 22),
+                      label: const Text(
+                        'SOS Emergency',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: AppColors.error,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        shadowColor: AppColors.error.withAlpha(160),
+                        elevation: 8,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+            ],
+
             _StatusCard(zone: zone),
             const SizedBox(height: 12),
             _TimeCard(hours: _hours),
             const SizedBox(height: 12),
-            _HydrationCard(),
+            const _HydrationCard(),
             const SizedBox(height: 20),
             TextButton.icon(
               onPressed: () => setState(() => _showInputs = !_showInputs),
@@ -141,7 +210,7 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
             const SizedBox(height: 16),
             GestureDetector(
               onTap: () {},
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
@@ -149,8 +218,8 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
                     color: AppColors.primary,
                     size: 16,
                   ),
-                  const SizedBox(width: 6),
-                  const Text(
+                  SizedBox(width: 6),
+                  Text(
                     'Find Nearest First Aid Station',
                     style: TextStyle(
                       color: AppColors.primary,
@@ -168,137 +237,11 @@ class _BacMonitorScreenState extends ConsumerState<BacMonitorScreen> {
   }
 }
 
-// ── Arc gauge ─────────────────────────────────────────────────────────────────
-
-class _BacGauge extends StatelessWidget {
-  const _BacGauge({required this.bac, required this.zone});
-  final double bac;
-  final BacZone zone;
-
-  @override
-  Widget build(BuildContext context) {
-    final progress = (bac / 0.80).clamp(0.0, 1.0);
-    return SizedBox(
-      width: 220,
-      height: 220,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          CustomPaint(
-            size: const Size(220, 220),
-            painter: _GaugePainter(progress: progress, color: zone.color),
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'CURRENT BAC',
-                style: TextStyle(
-                  color: AppColors.textSecondary,
-                  fontSize: 12,
-                  letterSpacing: 1.2,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    bac.toStringAsFixed(2),
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
-                      fontSize: 52,
-                      fontWeight: FontWeight.bold,
-                      height: 1,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      '%',
-                      style: TextStyle(
-                        color: AppColors.textSecondary,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                zone == BacZone.safe
-                    ? 'Safe'
-                    : zone == BacZone.moderate
-                    ? 'Moderate'
-                    : 'High',
-                style: TextStyle(
-                  color: zone.color,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _GaugePainter extends CustomPainter {
-  const _GaugePainter({required this.progress, required this.color});
-  final double progress;
-  final Color color;
-
-  static const _startDeg = 150.0;
-  static const _sweepDeg = 240.0;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2 - 16;
-    final rect = Rect.fromCircle(center: center, radius: radius);
-    final start = _startDeg * pi / 180;
-    final sweep = _sweepDeg * pi / 180;
-
-    canvas.drawArc(
-      rect,
-      start,
-      sweep,
-      false,
-      Paint()
-        ..color = const Color(0xFF2A2A3E)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 14
-        ..strokeCap = StrokeCap.round,
-    );
-
-    if (progress > 0.01) {
-      canvas.drawArc(
-        rect,
-        start,
-        sweep * progress,
-        false,
-        Paint()
-          ..color = color
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 14
-          ..strokeCap = StrokeCap.round,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_GaugePainter old) =>
-      old.progress != progress || old.color != color;
-}
-
 // ── Status card ───────────────────────────────────────────────────────────────
 
 class _StatusCard extends StatelessWidget {
   const _StatusCard({required this.zone});
+
   final BacZone zone;
 
   @override
@@ -376,6 +319,7 @@ class _StatusCard extends StatelessWidget {
 
 class _TimeCard extends StatelessWidget {
   const _TimeCard({required this.hours});
+
   final double hours;
 
   @override

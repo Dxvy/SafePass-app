@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../payment/presentation/providers/payment_providers.dart';
+import '../domain/widmark_formula.dart';
+import 'providers/safety_providers.dart';
+import 'widgets/bac_gauge_widget.dart';
 
 class SafetyDashboardScreen extends ConsumerWidget {
   const SafetyDashboardScreen({super.key});
@@ -10,6 +13,7 @@ class SafetyDashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final paymentState = ref.watch(paymentProvider);
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -21,6 +25,8 @@ class SafetyDashboardScreen extends ConsumerWidget {
             const _NfcCard(),
             const SizedBox(height: 14),
             const _BraceletStatus(),
+            const SizedBox(height: 14),
+            const _SafetyPreviewCard(),
             const SizedBox(height: 28),
             const _QuickActions(),
             const SizedBox(height: 28),
@@ -32,8 +38,11 @@ class SafetyDashboardScreen extends ConsumerWidget {
   }
 }
 
+// ── Header ────────────────────────────────────────────────────────────────────
+
 class _Header extends StatelessWidget {
   const _Header({required this.balance});
+
   final double balance;
 
   @override
@@ -100,6 +109,8 @@ class _Header extends StatelessWidget {
   }
 }
 
+// ── NFC card ──────────────────────────────────────────────────────────────────
+
 class _NfcCard extends StatelessWidget {
   const _NfcCard();
 
@@ -121,6 +132,8 @@ class _NfcCard extends StatelessWidget {
     );
   }
 }
+
+// ── Bracelet status ───────────────────────────────────────────────────────────
 
 class _BraceletStatus extends StatelessWidget {
   const _BraceletStatus();
@@ -202,8 +215,118 @@ class _BraceletStatus extends StatelessWidget {
   }
 }
 
+// ── Safety preview card ───────────────────────────────────────────────────────
+
+class _SafetyPreviewCard extends ConsumerWidget {
+  const _SafetyPreviewCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(bacMonitorProvider);
+    final hasData = state.result != null;
+    final bac = state.result?.bac ?? 0.0;
+    final zone = state.result?.zone ?? BacZone.safe;
+
+    return Semantics(
+      label: hasData
+          ? 'Safety Monitor: ${zone.name} zone, BAC ${bac.toStringAsFixed(2)} g/L. Tap to open.'
+          : 'Safety Monitor. Tap to check your BAC.',
+      button: true,
+      child: GestureDetector(
+        onTap: () => context.push('/safety/bac'),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(18),
+            border: hasData && zone == BacZone.high
+                ? Border.all(color: AppColors.error.withAlpha(180), width: 1.5)
+                : null,
+          ),
+          child: Row(
+            children: [
+              if (hasData)
+                BacGauge(bac: bac, zone: zone, size: 80)
+              else
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: const BoxDecoration(
+                    color: AppColors.surfaceVariant,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.shield_outlined,
+                    color: AppColors.textSecondary,
+                    size: 34,
+                  ),
+                ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'SAFETY MONITOR',
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    if (hasData) ...[
+                      Text(
+                        zone == BacZone.safe
+                            ? 'Safe to go'
+                            : zone == BacZone.moderate
+                            ? 'Be careful'
+                            : 'High — rest needed',
+                        style: TextStyle(
+                          color: zone.color,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        '${bac.toStringAsFixed(2)} g/L',
+                        style: const TextStyle(
+                          color: AppColors.textSecondary,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ] else
+                      const Text(
+                        'Tap to check\nyour BAC level',
+                        style: TextStyle(
+                          color: AppColors.textPrimary,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          height: 1.4,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.chevron_right,
+                color: hasData ? zone.color : AppColors.primary,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Quick Actions ─────────────────────────────────────────────────────────────
+
 class _Action {
   const _Action({required this.icon, required this.label, required this.route});
+
   final IconData icon;
   final String label;
   final String route;
@@ -266,6 +389,7 @@ class _QuickActions extends StatelessWidget {
 
 class _ActionTile extends StatelessWidget {
   const _ActionTile({required this.action});
+
   final _Action action;
 
   @override
@@ -306,8 +430,11 @@ class _ActionTile extends StatelessWidget {
   }
 }
 
+// ── Recent Activity ───────────────────────────────────────────────────────────
+
 class _RecentActivity extends StatelessWidget {
   const _RecentActivity({required this.history});
+
   final List<Map<String, dynamic>> history;
 
   @override
@@ -351,6 +478,7 @@ class _RecentActivity extends StatelessWidget {
 
 class _TxRow extends StatelessWidget {
   const _TxRow({required this.tx});
+
   final Map<String, dynamic> tx;
 
   @override
