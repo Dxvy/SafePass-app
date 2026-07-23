@@ -2,31 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:go_router/go_router.dart';
-
+import 'core/router/app_router.dart';
+import 'core/theme/app_theme.dart';
 import 'supabase_options.dart';
 
 // ---------------------------------------------------------------------------
-// Demo mode — set to true to run without a real Supabase project.
-// In Demo Mode, Supabase is not initialised; all state lives in Riverpod only.
+// Demo Mode — no hardware, no Supabase, all state lives in-memory Riverpod.
 // ---------------------------------------------------------------------------
 const bool kDemoMode = true;
 
-// ---------------------------------------------------------------------------
-// Supabase client helper — safe to call anywhere after main() has run.
-// ---------------------------------------------------------------------------
 SupabaseClient get supabase => Supabase.instance.client;
 
-// ---------------------------------------------------------------------------
-// Bootstrap
-// ---------------------------------------------------------------------------
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Hive (offline cache)
   await Hive.initFlutter();
 
-  // Supabase — skipped in Demo Mode or when credentials are still placeholders
   if (!kDemoMode) {
     await Supabase.initialize(
       url: SupabaseOptions.supabaseUrl,
@@ -34,29 +24,9 @@ Future<void> main() async {
     );
   }
 
-  runApp(
-    const ProviderScope(
-      child: SafePassApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: SafePassApp()));
 }
 
-// ---------------------------------------------------------------------------
-// Router
-// ---------------------------------------------------------------------------
-final _router = GoRouter(
-  initialLocation: '/',
-  routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const HomePage(),
-    ),
-  ],
-);
-
-// ---------------------------------------------------------------------------
-// App
-// ---------------------------------------------------------------------------
 class SafePassApp extends StatelessWidget {
   const SafePassApp({super.key});
 
@@ -65,65 +35,21 @@ class SafePassApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'SafePass',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6C63FF),
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-        fontFamily: 'Inter',
-      ),
-      routerConfig: _router,
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Placeholder home screen
-// ---------------------------------------------------------------------------
-class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.lock_outline, size: 72, color: Color(0xFF6C63FF)),
-            const SizedBox(height: 16),
-            Text(
-              'SafePass',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineLarge
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            if (kDemoMode)
-              Container(
-                margin: const EdgeInsets.only(top: 8),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.amber.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.amber, width: 1),
-                ),
-                child: const Text(
-                  'DEMO MODE',
-                  style: TextStyle(
-                    color: Colors.amber,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
-                    letterSpacing: 1.2,
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: ThemeMode.dark,
+      routerConfig: appRouter,
+      builder: (context, child) {
+        if (kDemoMode) {
+          return Banner(
+            message: 'DEMO',
+            location: BannerLocation.topEnd,
+            color: Colors.amber,
+            child: child!,
+          );
+        }
+        return child!;
+      },
     );
   }
 }

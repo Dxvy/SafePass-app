@@ -398,6 +398,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.1"
+  flutter_flavor:
+    dependency: "direct main"
+    description:
+      name: flutter_flavor
+      sha256: "611e2279cb250c2cb2565757e28545527f963692614a4b0671fa2e1e985c8c71"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.4"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -904,6 +912,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  mocktail:
+    dependency: "direct dev"
+    description:
+      name: mocktail
+      sha256: "80a996cd9a69284b3dc521ce185ffe9150cde69767c2d3a0720147d93c0cef53"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   native_toolchain_c:
     dependency: transitive
     description:
