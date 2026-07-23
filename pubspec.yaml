@@ -1,5 +1,5 @@
-name: safepass
-description: SafePass — Connected festival wristband app for safety, payments, and BAC monitoring.
+﻿name: safepass
+description: SafePass â€” Connected festival wristband app for safety, payments, and BAC monitoring.
 publish_to: none
 version: 3.2.0+1
 
@@ -48,6 +48,9 @@ dependencies:
   connectivity_plus: ^7.0.0
   uuid: ^4.5.3
   intl: ^0.20.2
+
+  # Monitoring & crash reporting (C4.1.2)
+  sentry_flutter: ^8.14.2
 
   # Environments / flavors
   flutter_flavor: ^3.0.0
